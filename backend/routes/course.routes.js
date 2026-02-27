@@ -4,7 +4,8 @@ import {
   getAll,
   getById,
   remove,
-  update
+  update,
+  enroll
 } from "../controllers/course.controller.js";
 import { protect } from "../middlewares/auth.middleware.js";
 import { authorizeRoles } from "../middlewares/role.middleware.js";
@@ -39,6 +40,13 @@ router.patch(
   authorizeRoles("INSTRUCTOR", "ADMIN"),
   validate(updateCourseSchema),
   update
+);
+
+router.post(
+  "/:id/enroll",
+  protect,
+  authorizeRoles("STUDENT"),
+  enroll
 );
 
 export default router;

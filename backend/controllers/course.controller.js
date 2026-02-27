@@ -5,6 +5,7 @@ import {
   deleteCourse
 } from "../services/course.service.js";
 import { updateCourse } from "../services/course.service.js";
+import { enrollInCourse } from "../services/course.service.js";
 
 export const create = async (req, res, next) => {
   try {
@@ -73,6 +74,19 @@ export const update = async (req, res, next) => {
     res.status(200).json({
       success: true,
       data: course
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const enroll = async (req, res, next) => {
+  try {
+    const result = await enrollInCourse(req.params.id, req.user);
+
+    res.status(200).json({
+      success: true,
+      ...result
     });
   } catch (error) {
     next(error);

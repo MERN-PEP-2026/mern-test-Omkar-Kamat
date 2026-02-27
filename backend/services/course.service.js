@@ -77,3 +77,20 @@ export const updateCourse = async (courseId, data, user) => {
 
   return course;
 };
+
+export const enrollInCourse = async (courseId, user) => {
+  const course = await Course.findById(courseId);
+
+  if (!course) {
+    throw new Error("Course not found");
+  }
+
+  if (course.students.includes(user.id)) {
+    throw new Error("Already enrolled in this course");
+  }
+
+  course.students.push(user.id);
+  await course.save();
+
+  return { message: "Enrolled successfully" };
+}; 
