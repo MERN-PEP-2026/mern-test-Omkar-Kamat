@@ -5,7 +5,9 @@ import {
   getById,
   remove,
   update,
-  enroll
+  enroll,
+  getStudents,
+  getMyCourses
 } from "../controllers/course.controller.js";
 import { protect } from "../middlewares/auth.middleware.js";
 import { authorizeRoles } from "../middlewares/role.middleware.js";
@@ -47,6 +49,20 @@ router.post(
   protect,
   authorizeRoles("STUDENT"),
   enroll
+);
+
+router.get(
+  "/:id/students",
+  protect,
+  authorizeRoles("INSTRUCTOR", "ADMIN"),
+  getStudents
+);
+
+router.get(
+  "/me/courses",
+  protect,
+  authorizeRoles("STUDENT"),
+  getMyCourses
 );
 
 export default router;

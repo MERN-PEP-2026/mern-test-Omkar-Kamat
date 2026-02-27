@@ -94,3 +94,33 @@ export const enrollInCourse = async (courseId, user) => {
 
   return { message: "Enrolled successfully" };
 }; 
+
+export const getEnrolledStudents = async (courseId, user) => {
+  const course = await Course.findById(courseId)
+    .populate("students", "name email role")
+    .populate("instructor", "name");
+
+  if (!course) {
+    throw new Error("Course not found");
+  }
+
+  if (
+    user.role === "INSTRUCTOR" &&
+    course.instructor._id.toString() !== user.id
+  ) {
+    throw new Error("Not authorized to view students of this course");
+  }
+
+  return course.students;
+};
+
+
+export const getStudentCourses = async (userId) => {
+  const courses = await Course.find({
+    students: userId
+  })
+    .populate("instructor", "name email")
+    .sort({ createdAt: -1 });
+
+  return courses;
+};
