@@ -8,7 +8,6 @@ export const registerSchema = z.object({
     .trim(),
 
   email: z
-    .string()
     .email("Invalid email format")
     .trim()
     .toLowerCase(),
