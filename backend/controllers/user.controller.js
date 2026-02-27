@@ -16,6 +16,6 @@ export const getMe = async (req, res, next) => {
       data: user
     });
   } catch (error) {
-    next(error);
+      ;
   }
 };

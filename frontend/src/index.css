@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+/* Theme Tokens */
+@theme {
+  --color-brand-100: #BBBDF6;
+  --color-brand-200: #9893DA;
+  --color-brand-300: #797A9E;
+  --color-brand-400: #72727E;
+  --color-brand-500: #625F63;
+
+  --radius-xl: 1rem;
+}
+
+/* Global Base Styling */
+body {
+  @apply bg-brand-100 text-brand-500 min-h-screen;
+}

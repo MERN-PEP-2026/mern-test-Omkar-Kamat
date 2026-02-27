@@ -7,10 +7,15 @@ function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const normalizeUser = (data) => ({
+    ...data,
+    id: data._id
+  });
+
   const fetchMe = async () => {
     try {
       const res = await api.get("/users/me");
-      setUser(res.data.data);
+      setUser(normalizeUser(res.data.data));
     } catch {
       setUser(null);
     } finally {
@@ -20,17 +25,22 @@ function AuthProvider({ children }) {
 
   const login = async (data) => {
     await api.post("/auth/login", data);
-    await fetchMe();
+    const res = await api.get("/users/me");
+    setUser(normalizeUser(res.data.data));
   };
 
   const register = async (data) => {
     await api.post("/auth/register", data);
-    await fetchMe();
+    const res = await api.get("/users/me");
+    setUser(normalizeUser(res.data.data));
   };
 
   const logout = async () => {
-    await api.post("/auth/logout");
-    setUser(null);
+    try {
+      await api.post("/auth/logout");
+    } finally {
+      setUser(null);
+    }
   };
 
   useEffect(() => {
