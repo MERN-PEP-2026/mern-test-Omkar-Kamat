@@ -10,12 +10,29 @@ export const createCourse = async ({ title, description }, user) => {
   return course;
 };
 
-export const getAllCourses = async () => {
-  const courses = await Course.find()
-    .populate("instructor", "name email role")
-    .sort({ createdAt: -1 });
+export const getAllCourses = async ({ page = 1, limit = 10, search = "" }) => {
+  const skip = (page - 1) * limit;
 
-  return courses;
+  const query = search
+    ? { title: { $regex: search, $options: "i" } }
+    : {};
+
+  const [courses, total] = await Promise.all([
+    Course.find(query)
+      .populate("instructor", "name email role")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit),
+
+    Course.countDocuments(query)
+  ]);
+
+  return {
+    total,
+    page,
+    totalPages: Math.ceil(total / limit),
+    data: courses
+  };
 };
 
 export const getCourseById = async (courseId) => {

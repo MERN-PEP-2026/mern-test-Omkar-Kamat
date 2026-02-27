@@ -20,11 +20,15 @@ export const create = async (req, res, next) => {
 
 export const getAll = async (req, res, next) => {
   try {
-    const courses = await getAllCourses();
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const search = req.query.search || "";
+
+    const result = await getAllCourses({ page, limit, search });
 
     res.status(200).json({
       success: true,
-      data: courses
+      ...result
     });
   } catch (error) {
     next(error);
