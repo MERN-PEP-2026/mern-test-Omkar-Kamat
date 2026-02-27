@@ -1,6 +1,9 @@
 import User from "../models/user.model.js";
 import { comparePassword } from "../utils/password.js";
-import { generateToken } from "../utils/jwt.js";
+import {
+  generateAccessToken,
+  generateRefreshToken
+} from "../utils/jwt.js";
 
 export const registerUserService = async ({ name, email, password, role }) => {
   const existingUser = await User.findOne({ email });
@@ -15,12 +18,15 @@ export const registerUserService = async ({ name, email, password, role }) => {
     role
   });
 
-  const token = generateToken({
+  const payload = {
     id: user._id,
     role: user.role
-  });
+  };
 
-  return { token };
+  const accessToken = generateAccessToken(payload);
+  const refreshToken = generateRefreshToken(payload);
+
+  return { accessToken, refreshToken };
 };
 
 export const loginUserService = async ({ email, password }) => {
@@ -34,12 +40,15 @@ export const loginUserService = async ({ email, password }) => {
     throw new Error("Invalid credentials");
   }
 
-  const token = generateToken({
+  const payload = {
     id: user._id,
     role: user.role
-  });
+  };
 
-  return { token };
+  const accessToken = generateAccessToken(payload);
+  const refreshToken = generateRefreshToken(payload);
+
+  return { accessToken, refreshToken };
 };
 
 export const logoutUserService = async () => {
