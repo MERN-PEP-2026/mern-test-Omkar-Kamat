@@ -1,0 +1,58 @@
+import {
+  createCourse,
+  getAllCourses,
+  getCourseById,
+  deleteCourse
+} from "../services/course.service.js";
+
+export const create = async (req, res, next) => {
+  try {
+    const course = await createCourse(req.body, req.user);
+
+    res.status(201).json({
+      success: true,
+      data: course
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAll = async (req, res, next) => {
+  try {
+    const courses = await getAllCourses();
+
+    res.status(200).json({
+      success: true,
+      data: courses
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getById = async (req, res, next) => {
+  try {
+    const course = await getCourseById(req.params.id);
+
+    res.status(200).json({
+      success: true,
+      data: course
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const remove = async (req, res, next) => {
+  try {
+    const result = await deleteCourse(req.params.id);
+
+    res.status(200).json({
+      success: true,
+      ...result
+    });
+  } catch (error) {
+    next(error);
+  }
+};
