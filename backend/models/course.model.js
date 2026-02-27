@@ -23,6 +23,11 @@ const courseSchema = new mongoose.Schema(
                 ref: "User",
             },
         ],
+        capacity: {
+            type: Number,
+            required: true,
+            min: 1,
+        },
     },
     {
         timestamps: true,

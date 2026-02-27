@@ -89,6 +89,10 @@ export const enrollInCourse = async (courseId, user) => {
     throw new Error("Already enrolled in this course");
   }
 
+  if (course.students.length >= course.capacity) {
+    throw new Error("Course capacity reached");
+  }
+
   course.students.push(user.id);
   await course.save();
 
