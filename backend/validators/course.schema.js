@@ -1,0 +1,21 @@
+import { z } from "zod";
+
+export const createCourseSchema = z.object({
+  title: z
+    .string()
+    .min(3, "Title must be at least 3 characters")
+    .max(100, "Title cannot exceed 100 characters")
+    .trim(),
+
+  description: z
+    .string()
+    .min(10, "Description must be at least 10 characters")
+    .max(1000, "Description cannot exceed 1000 characters")
+    .trim()
+});
+
+export const courseIdSchema = z.object({
+  id: z
+    .string()
+    .regex(/^[0-9a-fA-F]{24}$/, "Invalid course ID")
+});
