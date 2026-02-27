@@ -4,6 +4,7 @@ import {
   getCourseById,
   deleteCourse
 } from "../services/course.service.js";
+import { updateCourse } from "../services/course.service.js";
 
 export const create = async (req, res, next) => {
   try {
@@ -55,6 +56,23 @@ export const remove = async (req, res, next) => {
     res.status(200).json({
       success: true,
       ...result
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const update = async (req, res, next) => {
+  try {
+    const course = await updateCourse(
+      req.params.id,
+      req.body,
+      req.user
+    );
+
+    res.status(200).json({
+      success: true,
+      data: course
     });
   } catch (error) {
     next(error);

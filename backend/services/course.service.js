@@ -57,3 +57,23 @@ export const deleteCourse = async (courseId) => {
 
   return { message: "Course deleted successfully" };
 };
+
+export const updateCourse = async (courseId, data, user) => {
+  const course = await Course.findById(courseId);
+
+  if (!course) {
+    throw new Error("Course not found");
+  }
+
+  if (
+    user.role === "INSTRUCTOR" &&
+    course.instructor.toString() !== user.id
+  ) {
+    throw new Error("Not authorized to update this course");
+  }
+
+  Object.assign(course, data);
+  await course.save();
+
+  return course;
+};

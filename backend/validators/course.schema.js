@@ -19,3 +19,8 @@ export const courseIdSchema = z.object({
     .string()
     .regex(/^[0-9a-fA-F]{24}$/, "Invalid course ID")
 });
+
+export const updateCourseSchema = z.object({
+  title: z.string().min(3).max(100).trim().optional(),
+  description: z.string().min(10).max(1000).trim().optional()
+});
