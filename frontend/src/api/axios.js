@@ -25,6 +25,7 @@ api.interceptors.response.use(
   async error => {
     const originalRequest = error.config;
 
+    // Handle expired access token
     if (
       error.response &&
       error.response.status === 401 &&
@@ -52,6 +53,14 @@ api.interceptors.response.use(
       } finally {
         isRefreshing = false;
       }
+    }
+
+    if (error.response?.data?.message) {
+      window.dispatchEvent(
+        new CustomEvent("api-error", {
+          detail: error.response.data.message
+        })
+      );
     }
 
     return Promise.reject(error);

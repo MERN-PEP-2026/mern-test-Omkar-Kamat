@@ -8,17 +8,22 @@ import CourseDetails from "./pages/CourseDetails";
 import MyCourses from "./pages/MyCourses";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CreateCourse from "./pages/CreateCourse";
+import InstructorDashboard from "./pages/InstructorDashboard";
+import CourseStudents from "./pages/CourseStudents";
+import ToastProvider from "./context/ToastContext";
+import EditCourse from "./pages/EditCourse";
 
 function App() {
     return (
         <AuthProvider>
+            <ToastProvider />
             <BrowserRouter>
                 <Navbar />
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-
+                    <Route path="/" element={<Dashboard />} />
                     <Route
                         path="/courses/:id"
                         element={
@@ -36,12 +41,46 @@ function App() {
                             </ProtectedRoute>
                         }
                     />
+                    <Route
+                        path="/courses/:id"
+                        element={
+                            <ProtectedRoute>
+                                <CourseDetails />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/courses/:id/edit"
+                        element={
+                            <ProtectedRoute roles={["INSTRUCTOR", "ADMIN"]}>
+                                <EditCourse />
+                            </ProtectedRoute>
+                        }
+                    />
 
                     <Route
                         path="/create-course"
                         element={
                             <ProtectedRoute roles={["INSTRUCTOR", "ADMIN"]}>
                                 <CreateCourse />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/instructor"
+                        element={
+                            <ProtectedRoute roles={["INSTRUCTOR"]}>
+                                <InstructorDashboard />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/courses/:id/students"
+                        element={
+                            <ProtectedRoute roles={["INSTRUCTOR", "ADMIN"]}>
+                                <CourseStudents />
                             </ProtectedRoute>
                         }
                     />
