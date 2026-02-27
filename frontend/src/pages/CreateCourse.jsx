@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../api/axios";
+import useToast from "../hooks/useToast";
 
 function CreateCourse() {
   const [form, setForm] = useState({
@@ -7,6 +8,8 @@ function CreateCourse() {
     description: "",
     capacity: 1
   });
+
+  const {showToast} = useToast();
 
   const handleChange = e => {
     setForm({
@@ -21,7 +24,7 @@ function CreateCourse() {
   const handleSubmit = async e => {
     e.preventDefault();
     await api.post("/courses", form);
-    alert("Course created");
+    showToast("Course created", "success");
   };
 
   return (
