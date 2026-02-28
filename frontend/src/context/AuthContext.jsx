@@ -24,15 +24,25 @@ function AuthProvider({ children }) {
   };
 
   const login = async (data) => {
-    await api.post("/auth/login", data);
-    const res = await api.get("/users/me");
-    setUser(normalizeUser(res.data.data));
+    try {
+      await api.post("/auth/login", data);
+      const res = await api.get("/users/me");
+      setUser(normalizeUser(res.data.data));
+    } catch (error) {
+      setUser(null);
+      throw error;
+    }
   };
 
   const register = async (data) => {
-    await api.post("/auth/register", data);
-    const res = await api.get("/users/me");
-    setUser(normalizeUser(res.data.data));
+    try {
+      await api.post("/auth/register", data);
+      const res = await api.get("/users/me");
+      setUser(normalizeUser(res.data.data));
+    } catch (error) {
+      setUser(null);
+      throw error;
+    }
   };
 
   const logout = async () => {

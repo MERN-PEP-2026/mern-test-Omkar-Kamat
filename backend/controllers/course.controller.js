@@ -18,7 +18,7 @@ export const create = async (req, res, next) => {
       data: course
     });
   } catch (error) {
-      ;
+    next(error);
   }
 };
 
@@ -35,7 +35,7 @@ export const getAll = async (req, res, next) => {
       ...result
     });
   } catch (error) {
-      ;
+    next(error);
   }
 };
 
@@ -48,7 +48,7 @@ export const getById = async (req, res, next) => {
       data: course
     });
   } catch (error) {
-      ;
+    next(error);
   }
 };
 
@@ -61,7 +61,7 @@ export const remove = async (req, res, next) => {
       ...result
     });
   } catch (error) {
-      ;
+    next(error);
   }
 };
 
@@ -78,7 +78,7 @@ export const update = async (req, res, next) => {
       data: course
     });
   } catch (error) {
-      ;
+    next(error);
   }
 };
 
@@ -91,7 +91,7 @@ export const enroll = async (req, res, next) => {
       ...result
     });
   } catch (error) {
-      ;
+    next(error);
   }
 };
 
@@ -107,7 +107,7 @@ export const getStudents = async (req, res, next) => {
       data: students
     });
   } catch (error) {
-      ;
+    next(error);
   }
 };
 
@@ -120,6 +120,6 @@ export const getMyCourses = async (req, res, next) => {
       data: courses
     });
   } catch (error) {
-      ;
+    next(error);
   }
 };

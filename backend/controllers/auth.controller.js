@@ -24,6 +24,7 @@ const refreshCookieOptions = {
 };
 
 export const register = async (req, res, next) => {
+  console.log("REGISTER ATTEMPT:", req.body.email);
   try {
     const { accessToken, refreshToken } =
       await registerUserService(req.body);
@@ -34,7 +35,7 @@ export const register = async (req, res, next) => {
       .status(201)
       .json({ message: "Registered successfully" });
   } catch (error) {
-      ;
+    next(error);
   }
 };
 
@@ -49,7 +50,7 @@ export const login = async (req, res, next) => {
       .status(200)
       .json({ message: "Login successful" });
   } catch (error) {
-      ;
+    next(error);
   }
 };
 
@@ -63,7 +64,7 @@ export const logout = async (req, res, next) => {
       .status(200)
       .json({ message: "Logged out successfully" });
   } catch (error) {
-      ;
+    next(error);
   }
 };
 
@@ -87,6 +88,6 @@ export const refresh = async (req, res, next) => {
       .status(200)
       .json({ message: "Token refreshed" });
   } catch (error) {
-      ;
+    next(error);
   }
 };

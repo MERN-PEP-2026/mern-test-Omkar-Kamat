@@ -1,9 +1,10 @@
 import Course from "../models/course.model.js";
 
-export const createCourse = async ({ title, description }, user) => {
+export const createCourse = async ({ title, description, capacity }, user) => {
   const course = await Course.create({
     title,
     description,
+    capacity,
     instructor: user.id
   });
 
@@ -97,7 +98,7 @@ export const enrollInCourse = async (courseId, user) => {
   await course.save();
 
   return { message: "Enrolled successfully" };
-}; 
+};
 
 export const getEnrolledStudents = async (courseId, user) => {
   const course = await Course.findById(courseId)
