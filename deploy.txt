@@ -1,0 +1,2 @@
+frontend = https://mern-test-omkar-kamat-frontend.onrender.com
+backend = https://mern-test-omkar-kamat.onrender.com
